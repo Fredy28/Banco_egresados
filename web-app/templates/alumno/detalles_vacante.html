@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detalle Vacante</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .vacante-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .company-name {
+      color: #0d6efd;
+      font-weight: 700;
+      font-size: 1.8rem;
+      text-decoration: none;
+    }
+    .company-name:hover {
+      text-decoration: underline;
+    }
+    .vacante-title {
+      font-weight: 600;
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    .label-title {
+      font-weight: 600;
+      margin-top: 1rem;
+      color: #495057;
+    }
+    .vacante-info {
+      font-size: 1rem;
+      color: #6c757d;
+    }
+    .btn-solicitar {
+      margin-top: 2rem;
+      background-color: #0d6efd;
+      border-color: #0d6efd;
+      font-weight: 600;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">ULSADOS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Vacantes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Empresas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Mi Perfil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Cerrar sesión</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <main>
+  <div class="vacante-container">
+    <a href="https://empresa1.com" target="_blank" class="company-name">Tech Innovators S.A.</a>
+    <h2 class="vacante-title">Desarrollador Frontend</h2>
+
+    <div>
+      <div class="label-title">Modalidad</div>
+      <div class="vacante-info">Presencial</div>
+    </div>
+
+    <div>
+      <div class="label-title">Jornada</div>
+      <div class="vacante-info">Tiempo completo (9:00 am - 6:00 pm)</div>
+    </div>
+
+    <div>
+      <div class="label-title">Aptitudes</div>
+      <div class="vacante-info">
+        React, Bootstrap, CSS, Comunicación efectiva, Trabajo en equipo
+      </div>
+    </div>
+
+    <div>
+      <div class="label-title">Descripción vacante</div>
+      <div class="vacante-info">
+        Buscamos un desarrollador frontend creativo y proactivo que sepa implementar interfaces responsivas y amigables, además de colaborar estrechamente con el equipo de diseño y backend.
+      </div>
+    </div>
+
+    <div>
+      <div class="label-title">Salario</div>
+      <div class="vacante-info">$12,000 MXN mensuales</div>
+    </div>
+
+    <button class="btn btn-primary btn-solicitar" type="button">Solicitar Vacante</button>
+  </div>
+  </main>
+
+<footer class="bg-dark text-white py-4 mt-5">
+  <div class="container text-center">
+    <p class="mb-1">© 2025 ULSADOS | Universidad La Salle Oaxaca</p>
+    <p class="mb-0 small">
+      Desarrollado por Universidad La Salle Oaxaca · Contacto: <a href="mailto:ayala@correo.com" class="text-white text-decoration-underline">correo@correo.com</a>
+    </p>
+  </div>
+</footer>
+
+
+</body>
+</html>

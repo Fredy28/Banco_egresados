@@ -1,0 +1,31 @@
+module CrudApp {
+    interface Egresados {
+        string create(in string data);
+        string read(in string id);
+        string update(in string id, in string data);
+        string delete(in string id);
+        string list_all();
+    };
+
+    interface Empresas {
+        string create(in string data);
+        string read(in string id);
+        string update(in string id, in string data);
+        string delete(in string id);
+        string list_all();
+    };
+
+    interface Usuarios {
+        string register(in string data);
+        string login(in string email, in string password);
+        string get_user_by_id(in string id);
+    };
+
+    interface Vacantes {
+        string create(in string data);
+        string read(in string id);
+        string update(in string id, in string data);
+        string delete(in string id);
+        string list_all();
+    };
+};

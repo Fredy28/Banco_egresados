@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Administrador</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #0d6efd;
+      margin-bottom: 1rem;
+    }
+
+    .table th {
+      background-color: #e9f2ff;
+    }
+    
+    .title-with-button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">ULSADOS</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-emp">
+            <a class="nav-link active" href="#">Inicio</a>
+          </li>
+          <li class="nav-emp">
+            <a class="nav-link" href="#">Vacantes</a>
+          </li>
+          <li class="nav-emp">
+            <a class="nav-link" href="#">Empresas</a>
+          </li>
+          <li class="nav-emp">
+            <a class="nav-link" href="#">Mi Perfil</a>
+          </li>
+          <li class="nav-emp">
+            <a class="nav-link" href="#">Cerrar sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <h1 class="text-center mb-4 text-primary fw-bold">Panel de Administración</h1>
+
+    <!-- EMPRESAS -->
+    <section class="mb-5">
+      <div class="title-with-button">
+        <h2 class="section-title">Empresas Registradas</h2>
+        <a href="{{ url_for('empresas.nueva_empresa') }}" class="btn btn-success">
+          <i class="fas fa-plus"></i> Agregar Empresa
+        </a>
+      </div>
+      <div class="card-body p-0">
+        {% if empresas %}
+        <div class="list-group list-group-flush">
+          {% for empresa in empresas %}
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">{{ empresa.nombre }}</div>
+              <p class="text-muted">{{ empresa.vacantes_disponibles }}</p>
+              <p class="text-muted">{{ empresa.ubicacion }}</p>
+              <p class="text-muted">{{ empresa.sector }}</p>
+              <p class="text-muted">{{ empresa.descripcion }}</p>
+              <p class="text-muted">{{ empresa.especialidades }}</p>
+              <p class="text-muted">{{ empresa.contacto }}</p>
+              <div class="mt-1">
+                <small class="text-muted">ID: {{ empresa._id }}</small>
+              </div>
+            </div>
+            <div class="btn-group">
+              <a href="{{ url_for('read_empresa', empresa_id=empresa._id) }}" class="btn btn-sm btn-info">
+                <i class="fas fa-edit"></i> Editar
+              </a>
+              <form method="POST" action="{{ url_for('delete', empresa_id=empresa._id) }}">
+                <button type="submit" class="btn btn-sm btn-outline-danger"
+                  onclick="return confirm('Delete this emp permanently?')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="p-4 text-center text-muted">
+          <i class="fas fa-inbox fa-3x mb-3"></i>
+          <p class="mb-0">No hay registros</p>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- USUARIOS -->
+    <section class="mb-5">
+      <div class="title-with-button">
+        <h2 class="section-title">Egresados</h2>
+        <a href="{{ url_for('egresados.nuevo_perfil') }}" class="btn btn-success">
+          <i class="fas fa-plus"></i> Agregar Egresado
+        </a>
+      </div>
+      <div class="card-body p-0">
+        {% if egresados %}
+        <div class="list-group list-group-flush">
+          {% for egresado in egresados %}
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">{{ egresado.nombre }}</div>
+              <p class="text-muted">{{ egresado.contacto }}</p>
+              <p class="text-muted">{{ egresado.licenciatura }}</p>
+              <p class="text-muted">{{ egresado.sector }}</p>
+              <p class="text-muted">{{ egresado.nivel_ingles }}</p>
+              <div class="mt-1">
+                <small class="text-muted">ID: {{ egresado._id }}</small>
+              </div>
+            </div>
+            <div class="btn-group">
+              <a href="{{ url_for('read_egresado', egresado_id=egresado._id) }}" class="btn btn-sm btn-info">
+                <i class="fas fa-edit"></i> Editar
+              </a>
+              <form method="POST" action="{{ url_for('delete', egresado_id=egresado._id) }}">
+                <button type="submit" class="btn btn-sm btn-outline-danger"
+                  onclick="return confirm('Delete this emp permanently?')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="p-4 text-center text-muted">
+          <i class="fas fa-inbox fa-3x mb-3"></i>
+          <p class="mb-0">No hay registros</p>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center">
+      <p class="mb-1">© 2025 ULSADOS | Universidad La Salle Oaxaca</p>
+      <p class="mb-0 small">
+        Desarrollado por Universidad La Salle Oaxaca · Contacto: <a href="mailto:ayala@correo.com"
+          class="text-white text-decoration-underline">correo@correo.com</a>
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>
