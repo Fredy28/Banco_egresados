@@ -1,4 +1,4 @@
-# web-app/app.py
+# web-app/egresados_routes.py
 import os
 import sys
 import json
@@ -27,17 +27,14 @@ def index():
     try:
         egresados = client.list_all()
         print("📋 Egresados:", egresados)
-        empresas = client.empresas.list_all()
+        empresas = client.list_all_empresas()
         print("🏢 Empresas:", empresas)
-        return render_template('admin/dashboard.html', egresados=egresados, empresas=empresas)
+        return render_template('admin/dashboard.html', empresas=empresas, egresados=egresados)
     except CORBAOperationError as e:
         print(f"❌ Error CORBA: {e}")
         flash(f'Error al obtener registros: {str(e)}', 'danger')
-        return render_template('admin/dashboard.html', egresados=[], empresas=[])
+        return render_template('admin/dashboard.html', empresas=[], egresados=[])
 
-
-
-    
 @egresados_bp.route('/editar_perfil/<string:egresado_id>')
 def editar_perfil(egresado_id):
     egresado = client.read(egresado_id) 
@@ -73,7 +70,7 @@ def create():
             }
 
             print("📥 Datos recibidos:", egresado_data)
-            new_egresadoid = client.create(egresado_data)
+            new_egresadoid = client.create_egresado(egresado_data)
             print("✅ ID creado:", new_egresadoid)
             flash(f'egresado creado con ID: {new_egresadoid}', 'success')
         except KeyError as e:

@@ -2,7 +2,7 @@
 import sys
 import os
 
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 
 
 # Añade la carpeta raíz del proyecto
@@ -13,7 +13,7 @@ from routes.empresas_routes import empresas_bp
 from routes.usuarios_routes import usuarios_bp
 
 app = Flask(__name__)
-app.secret_key = 'mi_clave_secreta'  # cámbiala o usa os.environ
+app.secret_key = 'mi_clave_secreta' 
 
 # Registrar blueprints (uno por módulo funcional)
 app.register_blueprint(egresados_bp, url_prefix='/egresados')
@@ -22,7 +22,8 @@ app.register_blueprint(usuarios_bp, url_prefix='/usuarios')
 
 @app.route('/')
 def home():
-    return redirect(url_for('egresados.index'))
+    return render_template('Login.html')
+    #return redirect(url_for('egresados.index'))
 
 # Manejo de errores
 @app.errorhandler(404)

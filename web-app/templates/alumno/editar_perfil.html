@@ -84,24 +84,29 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label">Fecha de nacimiento</label>
+          <input type="text" class="form-control" name="nacimiento" value="{{ egresado.nacimiento }}" required />
+        </div>
+
+        <div class="mb-3">
           <label class="form-label">Licenciatura</label>
-          <input type="text" class="form-control" name="licenciatura" value="{{ egresado.licenciatura }}" />
+          <input type="text" class="form-control" name="licenciatura" value="{{ egresado.licenciatura }}" required/>
         </div>
 
         <div class="row mb-3">
           <div class="col-md-6">
             <label class="form-label">Maestría</label>
-            <input type="text" class="form-control" name="maestria" value="{{ egresado.maestria }}" />
+            <input type="text" class="form-control" name="maestria" value="{{ egresado.maestria }}" required/>
           </div>
           <div class="col-md-6">
             <label class="form-label">Título</label>
-            <input type="text" class="form-control" name="titulo" value="{{ egresado.titulo }}" />
+            <input type="text" class="form-control" name="titulo" value="{{ egresado.titulo }}" required/>
           </div>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Certificaciones</label>
-          <input type="text" class="form-control" name="certificados" value="{{ egresado.certificados }}" />
+          <input type="text" class="form-control" name="certificados" value="{{ egresado.certificados }}" required/>
         </div>
 
         <div class="mb-3">
@@ -120,12 +125,12 @@
 
         <div class="mb-3">
           <label class="form-label">Descripción</label>
-          <textarea class="form-control" rows="4" name="descripcion">{{ egresado.descripcion }}</textarea>
+          <textarea class="form-control" rows="4" name="descripcion" required>{{ egresado.descripcion }}</textarea>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Foto de perfil</label>
-          <input type="text" class="form-control" name="foto" value="{{ egresado.foto }}" />
+          <input type="text" class="form-control" name="foto" value="{{ egresado.foto }}" required/>
           <!-- O usar type="file" y procesarlo en el backend como archivo -->
         </div>
 
@@ -134,11 +139,11 @@
         <div class="row mb-3">
           <div class="col-md-6">
             <label class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" name="contacto" value="{{ egresado.contacto }}" />
+            <input type="email" class="form-control" name="contacto" value="{{ egresado.contacto }}" required/>
           </div>
           <div class="col-md-6">
             <label class="form-label">Contraseña</label>
-            <input type="password" class="form-control" placeholder="••••••••" name="password" />
+            <input type="password" class="form-control" placeholder="Contraseña" name="password" value="{{ egresado.password }} required/>
 
           </div>
         </div>

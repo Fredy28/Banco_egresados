@@ -27,6 +27,7 @@ class CORBAClient:
         self.egresados = self._connect_service('egresados', CrudApp.Egresados)
         self.empresas = self._connect_service('empresas', CrudApp.Empresas)
         self.usuarios = self._connect_service('usuarios', CrudApp.Usuarios)
+        #self.vacantes = self._connect_service('vacantes', CrudApp.Vacantes)
 
     def _get_ior(self, name):
         try:
@@ -54,8 +55,17 @@ class CORBAClient:
         except Exception as e:
             raise CORBAConnectionError(f"Error conectando a {name}: {e}")
 
-    def create(self, data):
+    def create_egresado(self, data):
         return self.egresados.create(json.dumps(data))
+
+    def create_empresa(self, data):
+        return self.empresas.create(json.dumps(data))
+
+    def create_usuario(self, data):
+        return self.usuarios.create(json.dumps(data))
+    
+    def create_vacante(self, data):
+        return self.vacantes.create(json.dumps(data))
 
     def read(self, id):
         return json.loads(self.egresados.read(id))
@@ -65,13 +75,45 @@ class CORBAClient:
 
     def delete(self, id):
         return json.loads(self.egresados.delete(id))['success']
+    
+    def read_empresa(self, id):
+        return json.loads(self.empresas.read(id))
+
+    def update_empresa(self, id, data):
+        return json.loads(self.empresas.update(id, json.dumps(data)))['success']
+
+    def delete_empresa(self, id):
+        return json.loads(self.empresas.delete(id))['success']
+    
+    def read_vacante(self, id):
+        return json.loads(self.vacantes.read(id))
+
+    def update_vacante(self, id, data):
+        return json.loads(self.vacantes.update(id, json.dumps(data)))['success']
+
+    def delete_vacante(self, id):
+        return json.loads(self.vacantes.delete(id))['success']
 
     def list_all(self) -> list:
         try:
             result = self.egresados.list_all()
-            return json.loads(result)  # ← esto debe dar una lista de dicts
+            return json.loads(result) 
         except Exception as e:
             raise CORBAOperationError(f"List error: {e}")
+        
+    def list_all_empresas(self) -> list:
+        try:
+            result = self.empresas.list_all()
+            return json.loads(result)
+        except Exception as e:
+            raise CORBAOperationError(f"List error (empresas): {e}")
+        
+    def list_all_vacantes(self) -> list:
+        try:
+            result = self.vacantes.list_all()
+            return json.loads(result)
+        except Exception as e:
+            raise CORBAOperationError(f"List error (vacantes): {e}")
 
 
 if __name__ == '__main__':

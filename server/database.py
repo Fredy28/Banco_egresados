@@ -50,15 +50,18 @@ class MongoDB:
 
     def create(self, data):
         try:
-            logger.info(f"Datos recibidos en create: {data}")
-            logger.info(f"Datos convertidos a dict: {data}")
-            result = self.collection.insert_one(data)
+            # SOLO deserializa si es string
+            if isinstance(data, str):
+                item = json.loads(data)
+            else:
+                item = data
+            logger.info(f"Datos convertidos a dict: {item} ({type(item)})")
+            result = self.collection.insert_one(item)
             logger.info(f"Insertado con ID: {result.inserted_id}")
             return str(result.inserted_id)
         except Exception as e:
             logger.error(f"Error en create: {str(e)}")
             raise
-
 
     def read(self, id):
         try:

@@ -1,3 +1,4 @@
+<!--Dashboard.html-->
 <!DOCTYPE html>
 <html lang="es">
 
@@ -114,7 +115,7 @@
             </div>
             <div class="btn-group">
               {% if empresa._id %}
-              <a href="{{ url_for('empresas.update_empresa', empresa_id=empresa._id) }}">
+              <a href="{{ url_for('empresas.editar_empresa', empresa_id=empresa._id) }}">
                 <i class="fas fa-edit"></i> Editar
               </a>
               {% endif %}

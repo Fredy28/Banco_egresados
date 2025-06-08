@@ -1,4 +1,4 @@
-# web-app/app.py
+# /empresas_routes.py
 import os
 import sys
 import json
@@ -25,15 +25,17 @@ except CORBAConnectionError as e:
 @empresas_bp.route('/')
 def index():
     try:
-        empresa = client.list_all()
-        return render_template('admin/dashboard.html', empresa=empresa)
+        empresas = client.list_all_empresas()
+        egresados = client.egresados.list_all()
+        # Si quieres mostrar ambos en dashboard, pásalos juntos:
+        return render_template('admin/dashboard.html', empresas=empresas, egresados=egresados)
     except CORBAOperationError as e:
         flash(f'Error retrieving empresa: {str(e)}', 'danger')
-        return render_template('admin/dashboard.html', empresa=[])
+        return render_template('admin/dashboard.html', empresas=[], egresados=[])
     
 @empresas_bp.route('/editar_empresa/<string:empresa_id>')
 def editar_empresa(empresa_id):
-    empresa = client.read(empresa_id) 
+    empresa = client.read_empresa(empresa_id) 
     return render_template('empresa/editar_empresa.html', empresa=empresa)
 
 @empresas_bp.route('/nueva_empresa', methods=['GET'])
@@ -52,9 +54,9 @@ def create():
                 "descripcion": request.form.get('descripcion'),
                 "especialidades": request.form.get('especialidades'),
                 "contacto": request.form.get('contacto'),
+                "vacantes": []
             }
 
-            # Recibir las vacantes como JSON (en un campo oculto llamado 'vacantes_json')
             vacantes_json = request.form.get('vacantes_json')
             if vacantes_json:
                 vacantes = json.loads(vacantes_json)
@@ -62,7 +64,7 @@ def create():
             else:
                 empresa_data["vacantes"] = []
 
-            new_empresaid = client.create(empresa_data)
+            new_empresaid = client.create_empresa(empresa_data)
             flash(f'Empresa creada correctamente con ID: {new_empresaid}', 'success')
         except CORBAOperationError as e:
             flash(f'Error en creación: {str(e)}', 'danger')
@@ -75,8 +77,8 @@ def create():
 @empresas_bp.route('/empresa/<string:empresa_id>')
 def read_empresa(empresa_id):
     try:
-        empresa = client.read(empresa_id)
-        return render_template('empresa.html', empresa=empresa)
+        empresa = client.read_empresa(empresa_id)
+        return render_template('/empresa/empresa.html', empresa=empresa)
     except CORBAOperationError as e:
         flash(f'Error al obtener el empresa: {str(e)}', 'danger')
         return redirect(url_for('empresas.index'))
@@ -85,7 +87,7 @@ def read_empresa(empresa_id):
 def update_empresa(empresa_id):
     if request.method == 'POST':
         try:
-            empresa_actual = client.read(empresa_id)
+            empresa_actual = client.read_empresa(empresa_id)
             if not empresa_actual:
                 flash('Error: La empresa no existe en la base de vacante.', 'danger')
                 return redirect(url_for('empresas.index'))
@@ -98,6 +100,7 @@ def update_empresa(empresa_id):
                 "descripcion": request.form.get('descripcion'),
                 "especialidades": request.form.get('especialidades'),
                 "contacto": request.form.get('contacto'),
+                "vacantes": []
             }
 
             # Vacantes actualizadas
@@ -106,7 +109,7 @@ def update_empresa(empresa_id):
                 vacantes = json.loads(vacantes_json)
                 update_data["vacantes"] = vacantes
 
-            success = client.update(empresa_id, update_data)
+            success = client.update_empresa(empresa_id, update_data)
             if success:
                 flash('¡Actualización exitosa!', 'success')
             else:
@@ -115,20 +118,20 @@ def update_empresa(empresa_id):
         except CORBAOperationError as e:
             flash(f'Error en actualización: {str(e)}', 'danger')
 
-    return redirect(url_for('read_empresa', empresa_id=empresa_id))
+    return redirect(url_for('empresas.read_empresa', empresa_id=empresa_id))
 
 
 @empresas_bp.route('/delete/<empresa_id>', methods=['POST'])
 def delete(empresa_id):
     try:
-        success = client.delete(empresa_id)
+        success = client.delete_empresa(empresa_id)
         if success:
             flash('empresa deleted successfully!', 'success')
         else:
             flash('Delete failed: empresa not found', 'warning')
     except CORBAOperationError as e:
         flash(f'Delete error: {str(e)}', 'danger')
-    return redirect(url_for('index'))
+    return redirect(url_for('egresados.index'))
 
 # Listar vacantes de una empresa
 @empresas_bp.route('/<empresa_id>/vacantes')

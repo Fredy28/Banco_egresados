@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,12 +13,14 @@
       font-family: 'Poppins', sans-serif;
       background-color: #F2F2F2;
     }
+
     .login-container {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .login-card {
       background: white;
       border-radius: 20px;
@@ -26,16 +29,19 @@
       width: 100%;
       max-width: 420px;
     }
+
     .login-card h2 {
       color: #005DAA;
       font-weight: 600;
     }
+
     .btn-primary {
       background-color: #005DAA;
       border: none;
     }
   </style>
 </head>
+
 <body>
   <div class="login-container">
     <div class="login-card">
@@ -50,13 +56,21 @@
           <input type="password" class="form-control" placeholder="********">
         </div>
         <div class="d-grid">
-          <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+          <button type="button" class="btn btn-primary" onclick="window.location.href='/egresados'">
+            Iniciar sesión
+          </button>
         </div>
-        <div class="text-center mt-3">
+        <!--<div class="text-center mt-3">
           <a href="#">¿Olvidaste tu contraseña?</a>
         </div>
+        
+        <form action="/usuarios/login" method="POST">
+  <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+</form>
+-->
       </form>
     </div>
   </div>
 </body>
+
 </html>
