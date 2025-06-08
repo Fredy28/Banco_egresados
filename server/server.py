@@ -57,8 +57,14 @@ egresados_obj = egresados_servant._this()
 empresas_obj = empresas_servant._this()
 usuarios_obj = usuarios_servant._this()
 
-with open("ior.txt", "w") as f:
+with open("ior_egresados.txt", "w") as f:
     f.write(orb.object_to_string(egresados_obj))
+
+with open("ior_empresas.txt", "w") as f:
+    f.write(orb.object_to_string(empresas_obj))
+
+with open("ior_usuarios.txt", "w") as f:
+    f.write(orb.object_to_string(usuarios_obj))
 
 
 print("Servidor CORBA listo con interfaces: Egresados, Empresas y Usuarios")

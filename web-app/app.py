@@ -2,7 +2,8 @@
 import sys
 import os
 
-from flask import Flask
+from flask import Flask, redirect, url_for
+
 
 # Añade la carpeta raíz del proyecto
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -21,7 +22,7 @@ app.register_blueprint(usuarios_bp, url_prefix='/usuarios')
 
 @app.route('/')
 def home():
-    return "<h1>Bienvenido al Banco de Egresados</h1>"
+    return redirect(url_for('egresados.index'))
 
 # Manejo de errores
 @app.errorhandler(404)

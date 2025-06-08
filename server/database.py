@@ -38,7 +38,6 @@ class MongoDB:
             self.client = MongoClient(
                 self.uri,
                 serverSelectionTimeoutMS=5000,
-                tlsInsecure=True
             )
             
             self.client.fredi.command('ping')
@@ -52,9 +51,8 @@ class MongoDB:
     def create(self, data):
         try:
             logger.info(f"Datos recibidos en create: {data}")
-            item = json.loads(data)
-            logger.info(f"Datos convertidos a dict: {item}")
-            result = self.collection.insert_one(item)
+            logger.info(f"Datos convertidos a dict: {data}")
+            result = self.collection.insert_one(data)
             logger.info(f"Insertado con ID: {result.inserted_id}")
             return str(result.inserted_id)
         except Exception as e:

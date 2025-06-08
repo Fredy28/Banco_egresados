@@ -45,13 +45,13 @@ def create():
     if request.method == 'POST':
         try:
             empresa_data = {
-                "nombre": request.form['nombre'],
-                "vacantes_disponibles": int(request.form['vacantes_disponibles']),
-                "ubicacion": request.form['ubicacion'],
-                "sector": request.form['sector'],
-                "descripcion": request.form['descripcion'],
-                "especialidades": request.form['especialidades'],
-                "contacto": request.form['contacto'],
+                "nombre": request.form.get('nombre'),
+                "vacantes_disponibles": int(request.form.get('vacantes_disponibles')),
+                "ubicacion": request.form.get('ubicacion'),
+                "sector": request.form.get('sector'),
+                "descripcion": request.form.get('descripcion'),
+                "especialidades": request.form.get('especialidades'),
+                "contacto": request.form.get('contacto'),
             }
 
             # Recibir las vacantes como JSON (en un campo oculto llamado 'vacantes_json')
@@ -91,13 +91,13 @@ def update_empresa(empresa_id):
                 return redirect(url_for('empresas.index'))
 
             update_data = {
-                "nombre": request.form['nombre'],
-                "vacantes_disponibles": int(request.form['vacantes_disponibles']),
-                "ubicacion": request.form['ubicacion'],
-                "sector": request.form['sector'],
-                "descripcion": request.form['descripcion'],
-                "especialidades": request.form['especialidades'],
-                "contacto": request.form['contacto'],
+                "nombre": request.form.get('nombre'),
+                "vacantes_disponibles": int(request.form.get('vacantes_disponibles')),
+                "ubicacion": request.form.get('ubicacion'),
+                "sector": request.form.get('sector'),
+                "descripcion": request.form.get('descripcion'),
+                "especialidades": request.form.get('especialidades'),
+                "contacto": request.form.get('contacto'),
             }
 
             # Vacantes actualizadas

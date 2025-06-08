@@ -23,12 +23,20 @@ except CORBAConnectionError as e:
 
 @egresados_bp.route('/')
 def index():
+    print("🟢 Entrando a la vista index() de egresados")
     try:
-        egresado = client.list_all()
-        return render_template('admin/dashboard.html', egresado=egresado)
+        egresados = client.list_all()
+        print("📋 Egresados:", egresados)
+        empresas = client.empresas.list_all()
+        print("🏢 Empresas:", empresas)
+        return render_template('admin/dashboard.html', egresados=egresados, empresas=empresas)
     except CORBAOperationError as e:
-        flash(f'Error retrieving egresado: {str(e)}', 'danger')
-        return render_template('admin/dashboard.html', egresado=[])
+        print(f"❌ Error CORBA: {e}")
+        flash(f'Error al obtener registros: {str(e)}', 'danger')
+        return render_template('admin/dashboard.html', egresados=[], empresas=[])
+
+
+
     
 @egresados_bp.route('/editar_perfil/<string:egresado_id>')
 def editar_perfil(egresado_id):
@@ -39,32 +47,42 @@ def editar_perfil(egresado_id):
 def nuevo_perfil():
     return render_template('alumno/añadir_perfil.html')
 
+@egresados_bp.route('/editar/<string:egresado_id>')
+def editar_egresado(egresado_id):
+    egresado = client.read(egresado_id)
+    return render_template('alumno/editar_perfil.html', egresado=egresado)
+
 
 @egresados_bp.route('/create', methods=['POST'])
 def create():
     if request.method == 'POST':
         try:
             egresado_data = {
-                "nombre": request.form["nombre"],
-                "sexo": request.form["sexo"],
-                "foto": request.form["foto"],
-                "nacimiento": request.form["nacimiento"],
-                "licenciatura": request.form["licenciatura"],
-                "maestria": request.form["maestria"],
-                "titulo": request.form["titulo"],
-                "certificados": request.form["certificados"],
-                "nivel_ingles": request.form["nivel_ingles"],
-                "descripcion": request.form["descripcion"],
-                "contacto": request.form["contacto"],
-                "password": request.form["password"],
+                "nombre": request.form.get("nombre"),
+                "sexo": request.form.get("sexo"),
+                "foto": request.form.get("foto"),
+                "nacimiento": request.form.get("nacimiento"),
+                "licenciatura": request.form.get("licenciatura"),
+                "maestria": request.form.get("maestria"),
+                "titulo": request.form.get("titulo"),
+                "certificados": request.form.get("certificados"),
+                "nivel_ingles": request.form.get("nivel_ingles"),
+                "descripcion": request.form.get("descripcion"),
+                "contacto": request.form.get("contacto"),
+                "password": request.form.get("password"),
             }
+
+            print("📥 Datos recibidos:", egresado_data)
             new_egresadoid = client.create(egresado_data)
-            flash(f'egresado created successfully! ID: {new_egresadoid}', 'success')
-        except CORBAOperationError as e:
-            flash(f'Create error: {str(e)}', 'danger')
+            print("✅ ID creado:", new_egresadoid)
+            flash(f'egresado creado con ID: {new_egresadoid}', 'success')
         except KeyError as e:
-            flash(f'Missing field: {str(e)}', 'warning')
-    return render_template('admin/dashboard.html')
+            print(f"⚠️ Campo faltante: {e}")
+            flash(f'Campo faltante: {e}', 'warning')
+        except Exception as e:
+            print(f"❌ Error inesperado: {e}")
+            flash(f'Error inesperado: {e}', 'danger')
+    return redirect(url_for('egresados.index'))
 
 
 @egresados_bp.route('/egresado/<string:egresado_id>')
@@ -88,18 +106,18 @@ def update_egresado(egresado_id):
             print(f"📌 egresado encontrado: {egresado_actual}")
 
             update_data = {
-                "nombre": request.form["nombre"],
-                "sexo": request.form["sexo"],
-                "foto": request.form["foto"],
-                "nacimiento": request.form["nacimiento"],
-                "licenciatura": request.form["licenciatura"],
-                "maestria": request.form["maestria"],
-                "titulo": request.form["titulo"],
-                "certificados": request.form["certificados"],
-                "nivel_ingles": request.form["nivel_ingles"],
-                "descripcion": request.form["descripcion"],
-                "contacto": request.form["contacto"],
-                "password": request.form["password"],
+                "nombre": request.form.get("nombre"),
+                "sexo": request.form.get("sexo"),
+                "foto": request.form.get("foto"),
+                "nacimiento": request.form.get("nacimiento"),
+                "licenciatura": request.form.get("licenciatura"),
+                "maestria": request.form.get("maestria"),
+                "titulo": request.form.get("titulo"),
+                "certificados": request.form.get("certificados"),
+                "nivel_ingles": request.form.get("nivel_ingles"),
+                "descripcion": request.form.get("descripcion"),
+                "contacto": request.form.get("contacto"),
+                "password": request.form.get("password"),
             }
 
             success = client.update(egresado_id, update_data)
@@ -112,7 +130,7 @@ def update_egresado(egresado_id):
         except CORBAOperationError as e:
             flash(f'Error de actualización: {str(e)}', 'danger')
 
-    return redirect(url_for('read_egresado', egresado_id=egresado_id))
+    return redirect(url_for('egresados.read_egresado', egresado_id=egresado_id))
 
 
 @egresados_bp.route('/delete/<egresado_id>', methods=['POST'])
@@ -125,7 +143,7 @@ def delete(egresado_id):
             flash('Delete failed: egresado not found', 'warning')
     except CORBAOperationError as e:
         flash(f'Delete error: {str(e)}', 'danger')
-    return redirect(url_for('egresado.index'))
+    return redirect(url_for('egresados.index'))
 
 @egresados_bp.errorhandler(404)
 def page_not_found(e):
@@ -134,3 +152,6 @@ def page_not_found(e):
 @egresados_bp.errorhandler(500)
 def internal_error(e):
     return render_template('500.html'), 500
+
+if __name__ == '__main__':
+    egresados_bp.run(host='0.0.0.0', port=5000, debug=True)

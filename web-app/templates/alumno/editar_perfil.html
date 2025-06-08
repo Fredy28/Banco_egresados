@@ -65,8 +65,7 @@
   <div class="container">
     <div class="edit-container">
       <h1 class="form-title">Editar Perfil</h1>
-      <form method="POST" action="{{ url_for('egresados.update_egresado', egresado_id=egresado.id) }}"
-        enctype="multipart/form-data">
+      <form method="POST" action="{{ url_for('egresados.update_egresado', egresado_id=egresado._id) }}">
         <div class="row mb-3">
           <div class="col-md-6">
             <label class="form-label">Nombre</label>
