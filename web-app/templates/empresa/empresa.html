@@ -105,43 +105,34 @@
       <img src="https://via.placeholder.com/150" alt="Logo Empresa" class="empresa-logo" />
     </div>
     <div class="empresa-body">
-      <div class="empresa-nombre">Tech Innovators S.A. de C.V.</div>
+      <div class="empresa-nombre">{{ empresa.nombre }}</div>
       <div class="empresa-descripcion">
-        Transformando ideas en soluciones tecnológicas desde 2005.
+        {{ empresa.especialidades }}
       </div>
 
       <div class="row mt-4">
         <div class="col-md-6">
           <div class="info-item">
             <div class="info-label">Giro:</div>
-            <div class="info-value">Tecnología y desarrollo de software</div>
-          </div>
+            <div class="info-value">{{ empresa.sector }}
           <div class="info-item">
             <div class="info-label">Ubicación:</div>
-            <div class="info-value">Ciudad de México, CDMX</div>
+            <div class="info-value">{{ empresa.ubicacion }}</div>
           </div>
           <div class="info-item">
-            <div class="info-label">Página web:</div>
-            <div class="info-value"><a href="https://techinnovators.com" target="_blank">techinnovators.com</a></div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">Tamaño de empresa:</div>
-            <div class="info-value">201-500 empleados</div>
+            <div class="info-label">Vacantes disponibles</div>
+            <div class="info-value">{{ empresa.vacantes_disponibles }}</div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="info-item">
             <div class="info-label">Correo:</div>
-            <div class="info-value">contacto@techinnovators.com</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">Teléfono:</div>
-            <div class="info-value">55 1234 5678</div>
+            <div class="info-value">{{ empresa.contacto }}</div>
           </div>
           <div class="info-item">
             <div class="info-label">Descripción:</div>
             <div class="info-value">
-              Somos una empresa dedicada al desarrollo de software a la medida, inteligencia artificial y soluciones en la nube para empresas de diferentes sectores.
+              {{ empresa.descripcion }}
             </div>
           </div>
         </div>

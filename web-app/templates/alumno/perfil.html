@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Perfil Alumno</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
       background-color: #f8f9fa;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
     .cover-photo {
       height: 180px;
-      background-color: #007bff; /* azul bootstrap */
+      background-color: #007bff;
+      /* azul bootstrap */
       position: relative;
       border-radius: 0.5rem 0.5rem 0 0;
     }
+
     .profile-pic {
       width: 140px;
       height: 140px;
@@ -31,6 +32,7 @@
       transform: translateX(-50%);
       background-color: white;
     }
+
     .profile-card {
       margin-top: 70px;
       border-radius: 0 0 0.5rem 0.5rem;
@@ -38,22 +40,28 @@
       background-color: white;
       padding: 2rem 2rem 1.5rem 2rem;
     }
+
     .profile-name {
       font-weight: 700;
       font-size: 2.2rem;
-      color: #004085; /* azul oscuro */
+      color: #004085;
+      /* azul oscuro */
       text-align: center;
       margin-bottom: 0.25rem;
     }
+
     .profile-degree {
       text-align: center;
       font-style: italic;
-      color: #6c757d; /* gris bootstrap */
+      color: #6c757d;
+      /* gris bootstrap */
       margin-bottom: 1.5rem;
     }
+
     .profile-section strong {
       color: #004085;
     }
+
     .profile-description {
       font-style: italic;
       color: #495057;
@@ -67,7 +75,7 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
@@ -91,52 +99,54 @@
 </nav>
 
 <main>
-<body>
-  <div class="container my-5" style="max-width: 700px;">
-    <div class="cover-photo">
-      <img
-        src="https://randomuser.me/api/portraits/men/75.jpg"
-        alt="Foto Alumno"
-        class="profile-pic"
-      />
-    </div>
 
-    <div class="profile-card">
-      <h1 class="profile-name">Juan Pérez Gómez</h1>
-      <h5 class="profile-degree">Ingeniería en Software y Sistemas Computacionales</h5>
-
-      <div class="row text-secondary profile-section">
-        <div class="col-md-6 mb-3">
-          <strong>Maestría:</strong>
-          <p>Maestría en Ciencias de la Computación</p>
-        </div>
-        <div class="col-md-6 mb-3">
-          <strong>Título:</strong>
-          <p>Ingeniero en Software</p>
-        </div>
-        <div class="col-md-6 mb-3">
-          <strong>Certificaciones:</strong>
-          <p>AWS Certified Solutions Architect, Scrum Master</p>
-        </div>
-        <div class="col-md-6 mb-3">
-          <strong>Nivel de inglés:</strong>
-          <p>Avanzado</p>
-        </div>
-        <div class="col-12 mb-3">
-          <strong>Sexo:</strong>
-          <p>Masculino</p>
-        </div>
+  <body>
+    <div class="container my-5" style="max-width: 700px;">
+      <div class="cover-photo">
+        {% if egresado.foto %}
+        <img src="{{ egresado.foto }}" alt="Foto de {{ egresado.nombre }}" class="profile-pic" />
+        {% else %}
+        <span class="text-light position-absolute bottom-0 start-50 translate-middle-x">Sin foto</span>
+        {% endif %}
       </div>
 
-      <hr />
 
-      <h5 class="text-primary fw-semibold mb-3">Descripción</h5>
-      <p class="profile-description">
-        Apasionado por el desarrollo de software, con experiencia en proyectos de frontend y backend. Me encanta aprender nuevas tecnologías y trabajar en equipo.
-      </p>
+      <div class="profile-card">
+        <h1 class="profile-name">{{ egresado.nombre }}</h1>
+        <h5 class="profile-degree">{{egresado.licenciatura}}</h5>
+
+        <div class="row text-secondary profile-section">
+          <div class="col-md-6 mb-3">
+            <strong>Maestría:</strong>
+            <p>{{egresado.maestria}}</p>
+          </div>
+          <div class="col-md-6 mb-3">
+            <strong>Título:</strong>
+            <p>{{ egresado.titulo }}</p>
+          </div>
+          <div class="col-md-6 mb-3">
+            <strong>Certificaciones:</strong>
+            <p>{{ egresado.certificados }}</p>
+          </div>
+          <div class="col-md-6 mb-3">
+            <strong>Nivel de inglés:</strong>
+            <p>{{ egresado.nivel_ingles }}</p>
+          </div>
+          <div class="col-12 mb-3">
+            <strong>Sexo:</strong>
+            <p>{{ egresado.sexo }}</p>
+          </div>
+        </div>
+
+        <hr />
+
+        <h5 class="text-primary fw-semibold mb-3">Descripción</h5>
+        <p class="profile-description">
+          {{ egresado.descripcion }}
+        </p>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
 </main>
 
 <!-- footer.html -->
@@ -144,7 +154,8 @@
   <div class="container text-center">
     <p class="mb-1">© 2025 ULSADOS | Universidad La Salle Oaxaca</p>
     <p class="mb-0 small">
-      Desarrollado por Universidad La Salle Oaxaca · Contacto: <a href="mailto:ayala@correo.com" class="text-white text-decoration-underline">correo@correo.com</a>
+      Desarrollado por Universidad La Salle Oaxaca · Contacto: <a href="mailto:ayala@correo.com"
+        class="text-white text-decoration-underline">correo@correo.com</a>
     </p>
   </div>
 </footer>

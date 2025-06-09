@@ -44,6 +44,11 @@ def editar_perfil(egresado_id):
 def nuevo_perfil():
     return render_template('alumno/añadir_perfil.html')
 
+#@egresados_bp.route('/ver_perfil/<string:egresado_id>')
+#def ver_perfil(egresado_id):
+#    egresado = client.read(egresado_id)
+#    return render_template('alumno/perfil.html', egresado=egresado)
+
 @egresados_bp.route('/editar/<string:egresado_id>')
 def editar_egresado(egresado_id):
     egresado = client.read(egresado_id)
