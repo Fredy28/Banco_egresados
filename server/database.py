@@ -15,7 +15,7 @@ class MongoDB:
     def __init__(self, collection_name):
         self.user = os.getenv('MONGO_USER', 'fredi')
         self.password = os.getenv('MONGO_PASSWORD', 'fredi1234')
-        self.host = os.getenv('MONGO_HOST', '189.129.50.181')
+        self.host = os.getenv('MONGO_HOST', '189.129.44.252')
         self.port = os.getenv('MONGO_PORT', '27017')
         self.auth_db = os.getenv('MONGO_AUTH_DB', 'admin')
         self.db_name = os.getenv('MONGO_DB_NAME', 'banco_egresados')

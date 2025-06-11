@@ -27,7 +27,6 @@ def index():
     try:
         empresas = client.list_all_empresas()
         egresados = client.egresados.list_all()
-        # Si quieres mostrar ambos en dashboard, pásalos juntos:
         return render_template('admin/dashboard.html', empresas=empresas, egresados=egresados)
     except CORBAOperationError as e:
         flash(f'Error retrieving empresa: {str(e)}', 'danger')
@@ -70,7 +69,7 @@ def create():
             flash(f'Error en creación: {str(e)}', 'danger')
         except KeyError as e:
             flash(f'Campo faltante: {str(e)}', 'warning')
-    return redirect(url_for('empresas.index'))
+    return redirect(url_for('egresados.index'))
 
 
 

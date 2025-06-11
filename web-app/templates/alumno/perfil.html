@@ -79,19 +79,19 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Inicio</a>
+          <a class="nav-link" href="#">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Vacantes</a>
+          <a class="nav-link" href="{{ url_for('egresados.vacantes') }}">Vacantes</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Empresas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Mi Perfil</a>
+          <a class="nav-link active" href="#">Mi Perfil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Cerrar sesión</a>
+          <a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesión</a>
         </li>
       </ul>
     </div>
@@ -146,6 +146,13 @@
         </p>
       </div>
     </div>
+    <script>
+      if (window.performance && window.performance.navigation.type === 2) {
+        // El usuario presionó "atrás"
+        window.location.href = "/logout";
+      }
+    </script>
+
   </body>
 </main>
 

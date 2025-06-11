@@ -2,7 +2,9 @@
 import os
 import sys
 import json
-from flask import Blueprint, request, render_template, redirect, url_for, flash, Flask
+from flask import Blueprint, request, render_template, redirect, url_for, flash, session, Flask
+from bson.objectid import ObjectId
+from server.database import MongoDBEgresados, MongoDBEmpresas
 # Añadir rutas para los módulos generados
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../client')))
 from client.corba_client import CORBAClient, CORBAConnectionError, CORBAOperationError
@@ -12,6 +14,8 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(BASE_DIR, '..'))
 
 egresados_bp = Blueprint('egresados', __name__)
+db_egresados = MongoDBEgresados()
+db_empresas = MongoDBEmpresas()
 
 # Configurar cliente CORBA
 try:
@@ -43,6 +47,17 @@ def editar_perfil(egresado_id):
 @egresados_bp.route('/nuevo_perfil', methods=['GET'])
 def nuevo_perfil():
     return render_template('alumno/añadir_perfil.html')
+
+@egresados_bp.route('/vacantes', methods=['GET'])
+def vacantes():
+    if 'usuario' not in session:
+        flash('Debes iniciar sesión para ver las vacantes.', 'warning')
+        return redirect(url_for('login'))
+
+    egresado = db_egresados.collection.find_one({"_id": ObjectId(session['usuario'])})
+    empresas = list(db_empresas.collection.find({}))
+
+    return render_template('alumno/vacantes.html', egresado=egresado, empresas=empresas)
 
 #@egresados_bp.route('/ver_perfil/<string:egresado_id>')
 #def ver_perfil(egresado_id):
@@ -146,6 +161,22 @@ def delete(egresado_id):
     except CORBAOperationError as e:
         flash(f'Delete error: {str(e)}', 'danger')
     return redirect(url_for('egresados.index'))
+
+def buscar_egresado_por_correo(contacto):
+    """
+    Buscar un egresado en la base de datos por su correo.
+    """
+    return db_egresados.collection.find_one({"contacto": contacto})
+
+def mostrar_perfil_egresado(egresado_id):
+    """
+    Obtener los datos del egresado por su ID para mostrar su perfil.
+    """
+    try:
+        return db_egresados.collection.find_one({"_id": ObjectId(egresado_id)})
+    except Exception as e:
+        print(f"Error al buscar perfil: {e}")
+        return None
 
 @egresados_bp.errorhandler(404)
 def page_not_found(e):
